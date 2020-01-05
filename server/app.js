@@ -4,14 +4,17 @@ const routes = require('./routes');
 
 mongoose.connect('mongodb://127.0.0.1:27017', {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useCreateIndex: true
 });
 
 const app = express()
-app.use(express.static(path.join(__dirname, 'client/build')))
+
+app.use(express.json())
+app.use(express.static(path.join(__dirname, '../client/build')))
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build', 'index.html'))
+  res.sendFile(path.join(__dirname, '../client/build', 'index.html'))
 })
 app.use('/api', routes);
 

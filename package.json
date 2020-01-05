@@ -4,12 +4,26 @@
   "description": "Node.js and Express.js server",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./server/app.js",
+    "server": "babel-node ./server/app.js",
+    "server:prod": "node dist/app.js",
+    "dev": "NODE_ENV=development && npm run server",
+    "clean": "rm -rf dist",
+    "build": "babel ./server --out-dir dist",
+    "prod": "NODE_ENV=production && npm run clean && npm run build && npm run server:prod",
+    "watch": "nodemon"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
     "mongoose": "^5.8.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.7",
+    "@babel/core": "^7.7.7",
+    "@babel/node": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "nodemon": "^2.0.2"
   }
 }
