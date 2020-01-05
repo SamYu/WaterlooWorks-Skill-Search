@@ -1,7 +1,7 @@
 import Job from '../schemas/job';
 
 /*
-const google = new Job({ 
+const google = new Job({
     jobId: 1,
     company: 'Google',
     title: 'Software Engineering Intern',
@@ -16,7 +16,9 @@ const google = new Job({
 });
 */
 
-const createJob = async ({ jobId, company, title, region, summary, skills, workTerm }) => {
+export const createJob = async ({
+    jobId, company, title, region, summary, skills, workTerm,
+}) => {
     const newJob = new Job({
         jobId: jobId,
         company: company,
@@ -29,11 +31,4 @@ const createJob = async ({ jobId, company, title, region, summary, skills, workT
     return newJob.save();
 };
 
-const findJobs = async (query) => {
-    return Job.find(query);
-}
-
-module.exports = {
-    createJob,
-    findJobs
-};
+export const findJobs = async (query) => Job.find(query);
