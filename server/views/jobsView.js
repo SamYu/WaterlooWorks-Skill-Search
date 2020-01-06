@@ -20,13 +20,13 @@ export const createJob = async ({
     jobId, company, title, region, summary, skills, workTerm,
 }) => {
     const newJob = new Job({
-        jobId: jobId,
-        company: company,
-        title: title,
-        region: region,
-        summary: summary,
-        skills: skills,
-        workTerm: workTerm
+        jobId,
+        company,
+        title,
+        region,
+        summary,
+        skills,
+        workTerm,
     });
     return newJob.save();
 };
