@@ -105,3 +105,4 @@ dist
 
 # Misc
 .DS_STORE
+secrets.js
