@@ -1,4 +1,4 @@
-import { createJob, findJobs } from '../views/jobsView';
+import { createJob, findJobs, fetchJobsIfNeeded } from '../views/jobsView';
 
 export const postJob = async (req, res) => {
     try {
@@ -17,6 +17,17 @@ export const getJobs = async (req, res) => {
     });
     try {
         const jobs = await findJobs(query);
+        res.status(200).send(jobs);
+    } catch (e) {
+        console.error(e);
+        res.sendStatus(400);
+    }
+};
+
+export const fetchJobs = async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        const jobs = await fetchJobsIfNeeded(email, password);
         res.status(200).send(jobs);
     } catch (e) {
         console.error(e);

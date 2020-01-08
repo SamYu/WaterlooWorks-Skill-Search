@@ -35,9 +35,9 @@ function JobsList({ classes, jobs, isFetching }) {
                     <TableCell>{job.jobId}</TableCell>
                     <TableCell>{job.company}</TableCell>
                     <TableCell>{job.title}</TableCell>
-                    <TableCell>{job.region.country}</TableCell>
-                    <TableCell>{job.region.state}</TableCell>
-                    <TableCell>{job.region.city}</TableCell>
+                    <TableCell>{job.region}</TableCell>
+                    <TableCell>{job.region}</TableCell>
+                    <TableCell>{job.region}</TableCell>
                     <TableCell>{job.summary}</TableCell>
                     <TableCell>{job.skills}</TableCell>
                     <TableCell>{job.workTerm}</TableCell>

@@ -1,4 +1,5 @@
-const puppeteer = require('puppeteer');
+import puppeteer from 'puppeteer';
+import { getWorkTerm } from '../utils/utils';
 
 const url = 'https://waterlooworks.uwaterloo.ca/myAccount/hire-waterloo/other-jobs/jobs-postings.htm';
 
@@ -106,19 +107,19 @@ export default async function fetchLatestJobs(email, password) {
             const region = document.querySelector(regSel)
                 ? document.querySelector(regSel).innerHTML.trim()
                 : null;
-            const jobSummary = document.querySelector(sumSel)
+            const summary = document.querySelector(sumSel)
                 ? document.querySelector(sumSel).innerHTML.trim()
                 : null;
-            const requiredSkills = document.querySelector(skilSel)
+            const skills = document.querySelector(skilSel)
                 ? document.querySelector(skilSel).innerHTML.trim()
                 : null;
             return {
                 region,
-                jobSummary,
-                requiredSkills,
+                summary,
+                skills,
             };
         }, regionSel, jobSummarySel, reqSkillsSel);
-        jobs.push({ ...jobObj, ...expObj, lastUpdated: new Date() });
+        jobs.push({ ...jobObj, ...expObj, workTerm: getWorkTerm(), lastUpdated: new Date() });
         await expPage.close();
     }
     return jobs;

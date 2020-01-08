@@ -16,16 +16,16 @@ const jobSchema = new mongoose.Schema({
         required: true,
     },
     region: {
-        type: {
-            country: String,
-            state: String,
-            city: String,
-        },
+        type: String,
         required: true,
     },
     summary: String,
     skills: String,
     workTerm: String,
+    lastUpdated: {
+        type: Date,
+        required: true,
+    },
 });
 
 module.exports = mongoose.model('Job', jobSchema);
