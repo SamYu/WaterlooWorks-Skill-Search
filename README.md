@@ -1,8 +1,12 @@
-# WaterlooWorksPro [WIP]
-WaterlooWorks API and client
+# WaterlooWorks Skill Search
+A Node API and React client that scrapes jobs from the University of Waterloo’s co-op job portal and presents personalized job postings based on the user’s unique skillset.
+
+## How it works
+Job postings on WaterlooWorks are scraped using a Puppeteer, headless chrome Node.js API and the results are parsed and stored into a MongoDB database for caching.
 
 **Technologies Used**
-Node.js, Express.js, MongoDB, Mongoose.js, React, Redux, Docker
+- **Backend**: Node.js, Express.js, MongoDB, Mongoose.js, Puppeteer
+- **Frontend**: React, Redux
 
 ## How to develop locally
 
