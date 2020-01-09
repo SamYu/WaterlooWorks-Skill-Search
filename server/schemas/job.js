@@ -22,6 +22,7 @@ const jobSchema = new mongoose.Schema({
     summary: String,
     skills: String,
     workTerm: String,
+    skillsList: [String],
     lastUpdated: {
         type: Date,
         required: true,

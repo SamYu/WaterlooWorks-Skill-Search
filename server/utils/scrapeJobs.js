@@ -1,5 +1,6 @@
 import puppeteer from 'puppeteer';
 import { getWorkTerm } from '../utils/utils';
+import parseSkillsList from '../utils/parseSkillsList';
 
 const url = 'https://waterlooworks.uwaterloo.ca/myAccount/hire-waterloo/other-jobs/jobs-postings.htm';
 
@@ -59,7 +60,7 @@ export default async function fetchLatestJobs(email, password) {
     const jobs = [];
 
     // Iterate through the table of jobs
-    for (let i = 1; i <= jobCountOnPage; i += 1) {
+    for (let i = 1; i <= 2; i += 1) {
         // Get jobId, company, title
         const jobIdSelector = JOB_ID_SEL.replace('INDEX', i);
         const titleSelector = TITLE_SEL.replace('INDEX', i);
@@ -119,7 +120,14 @@ export default async function fetchLatestJobs(email, password) {
                 skills,
             };
         }, regionSel, jobSummarySel, reqSkillsSel);
-        jobs.push({ ...jobObj, ...expObj, workTerm: getWorkTerm(), lastUpdated: new Date() });
+        const skillsList = await parseSkillsList(expObj.skills);
+        jobs.push({
+            ...jobObj,
+            ...expObj,
+            workTerm: getWorkTerm(),
+            lastUpdated: new Date(),
+            skillsList,
+        });
         await expPage.close();
     }
     return jobs;

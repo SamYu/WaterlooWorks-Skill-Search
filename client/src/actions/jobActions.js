@@ -1,5 +1,5 @@
 import axios from 'axios';
-import secrets from '../../../secrets';
+import secrets from '../secrets';
 // Action Types
 
 export const ADD_JOB_FILTER = 'ADD_JOB_FILTER';

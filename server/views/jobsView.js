@@ -1,21 +1,6 @@
 import Job from '../schemas/job';
 import fetchLatestJobs from '../utils/scrapeJobs';
-
-/*
-const google = new Job({
-    jobId: 1,
-    company: 'Google',
-    title: 'Software Engineering Intern',
-    region: {
-        country: 'US',
-        state: 'CA',
-        city: 'Mountain View'
-    },
-    summary: 'The best',
-    skills: 'Stack: Go, Flutter, Dart',
-    workTerm: 'Spring 2019'
-});
-*/
+import parseSkillsList from '../utils/parseSkillsList';
 
 export const createJob = async ({
     jobId, company, title, region, summary, skills, workTerm,
@@ -28,6 +13,7 @@ export const createJob = async ({
         summary,
         skills,
         workTerm,
+        skillsList: await parseSkillsList(skills),
         lastUpdated: new Date(),
     });
     return newJob.save();
