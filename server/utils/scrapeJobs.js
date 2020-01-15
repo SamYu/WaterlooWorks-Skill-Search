@@ -1,5 +1,5 @@
 import puppeteer from 'puppeteer';
-import { getWorkTerm } from '../utils/utils';
+import { getWorkTerm, objectPromise } from '../utils/utils';
 import parseSkillsList from '../utils/parseSkillsList';
 
 const url = 'https://waterlooworks.uwaterloo.ca/myAccount/co-op/coop-postings.htm';
@@ -21,6 +21,55 @@ async function auth(page, email, password) {
     await page.keyboard.type(password);
     const signInBtn = '#submitButton';
     await page.click(signInBtn);
+}
+
+async function scrapeExpandedPage(page) {
+    const TABLE_SEL = '#postingDiv > div:nth-child(1) > div.panel-body > table > tbody';
+    await page.waitForSelector(TABLE_SEL);
+    const tableRows = await page.evaluate((sel) => {
+        const elem = document.querySelector(sel);
+        return elem ? elem.children : {};
+    }, TABLE_SEL);
+    const tableRowsCount = Object.keys(tableRows).length;
+    const pageInfo = {};
+    for (let i = 0; i < tableRowsCount; i++) {
+        const ROW_KEY_SEL = TABLE_SEL + ' > tr:nth-child(INDEX) > td:nth-child(1)'.replace('INDEX', i);
+        const ROW_VAL_SEL = TABLE_SEL + ' > tr:nth-child(INDEX) > td:nth-child(2)'.replace('INDEX', i);
+        const rowKey = await page.evaluate((sel) => {
+            const rowKeyElem = document.querySelector(sel);
+            return rowKeyElem 
+                ? rowKeyElem.innerHTML.replace(/<[^>]+>/g, '')
+                    .replace(/\n/g, '').replace(/\t/g, '')
+                : null;
+        }, ROW_KEY_SEL);
+        const rowVal = page.evaluate((sel) => {
+            const rowValElem = document.querySelector(sel);
+            return rowValElem
+                ? rowValElem.innerHTML.replace(/<[^>]+>/g, '')
+                    .replace(/\n/g, '').replace(/\t/g, '')
+                : null;
+        }, ROW_VAL_SEL);
+
+        // eslint-disable-next-line default-case
+        switch (rowKey) {
+        case 'Region:':
+            pageInfo.region = rowVal;
+            break;
+        case 'Job Summary:':
+            pageInfo.summary = rowVal;
+            break;
+        case 'Job Responsibilities:':
+            pageInfo.responsibilities = rowVal;
+            break;
+        case 'Required Skills:':
+            pageInfo.skills = rowVal;
+            break;
+        case 'Work Term:':
+            pageInfo.workTerm = rowVal;
+            break;
+        }
+    }
+    return objectPromise(pageInfo);
 }
 
 export default async function fetchLatestJobs(email, password) {
@@ -98,33 +147,11 @@ export default async function fetchLatestJobs(email, password) {
         await page.click(expandJobSelector);
         const newTarget = await browser.waitForTarget(target => target.opener() === pageTarget);
         const expPage = await newTarget.page();
-
-        // Get region, Job Summary, and Required Skills
-        const regionSel = '#postingDiv > div:nth-child(1) > div.panel-body > table > tbody > tr:nth-child(3) > td:nth-child(2)';
-        const jobSummarySel = '#postingDiv > div:nth-child(1) > div.panel-body > table > tbody > tr:nth-child(6) > td:nth-child(2)';
-        const reqSkillsSel = '#postingDiv > div:nth-child(1) > div.panel-body > table > tbody > tr:nth-child(8) > td:nth-child(2)';
-        await expPage.waitForSelector(regionSel);
-        const expObj = await expPage.evaluate((regSel, sumSel, skilSel) => {
-            const region = document.querySelector(regSel)
-                ? document.querySelector(regSel).innerHTML.trim()
-                : null;
-            const summary = document.querySelector(sumSel)
-                ? document.querySelector(sumSel).innerHTML.trim()
-                : null;
-            const skills = document.querySelector(skilSel)
-                ? document.querySelector(skilSel).innerHTML.trim()
-                : null;
-            return {
-                region,
-                summary,
-                skills,
-            };
-        }, regionSel, jobSummarySel, reqSkillsSel);
-        const skillsList = await parseSkillsList(expObj.skills);
+        const expandedInfo = await scrapeExpandedPage(expPage);
+        const skillsList = await parseSkillsList(expandedInfo.skills);
         jobs.push({
             ...jobObj,
-            ...expObj,
-            workTerm: getWorkTerm(),
+            ...expandedInfo,
             lastUpdated: new Date(),
             skillsList,
         });
