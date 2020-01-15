@@ -2,7 +2,7 @@ import puppeteer from 'puppeteer';
 import { getWorkTerm } from '../utils/utils';
 import parseSkillsList from '../utils/parseSkillsList';
 
-const url = 'https://waterlooworks.uwaterloo.ca/myAccount/hire-waterloo/other-jobs/jobs-postings.htm';
+const url = 'https://waterlooworks.uwaterloo.ca/myAccount/co-op/coop-postings.htm';
 
 async function auth(page, email, password) {
     await page.goto(url);
@@ -36,9 +36,9 @@ export default async function fetchLatestJobs(email, password) {
     // Navigate to jobs page
     await page.waitForNavigation();
     await page.goto(url, { waitUntil: 'domcontentloaded' });
-    const TEMP_CLICK_LINK = '#quickSearchCountsContainer > table > tbody > tr:nth-child(5) > td.full > a';
-    await page.waitForSelector(TEMP_CLICK_LINK);
-    await page.click(TEMP_CLICK_LINK);
+    const FOR_MY_PROGRAM_SEL = '#quickSearchCountsContainer > table > tbody > tr:nth-child(1) > td.full > a';
+    await page.waitForSelector(FOR_MY_PROGRAM_SEL);
+    await page.click(FOR_MY_PROGRAM_SEL);
     const jobCountOnPageSelector = '#totalOverAllPacks';
     await page.waitForSelector(jobCountOnPageSelector);
 
@@ -60,7 +60,7 @@ export default async function fetchLatestJobs(email, password) {
     const jobs = [];
 
     // Iterate through the table of jobs
-    for (let i = 1; i <= 2; i += 1) {
+    for (let i = 1; i <= jobCountOnPage; i += 1) {
         // Get jobId, company, title
         const jobIdSelector = JOB_ID_SEL.replace('INDEX', i);
         const titleSelector = TITLE_SEL.replace('INDEX', i);

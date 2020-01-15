@@ -11,15 +11,12 @@ import JobsContainer from './containers/JobsContainer';
 function App() {
   return (
     <Router>
-        <NavBar/>
-        <Switch>
-          <Route path="/jobs">
-            <JobsContainer/>
-          </Route>
-          <Route path="/">
-            <HomeView/>
-          </Route>
-        </Switch>
+      <NavBar />
+      <Switch>
+        <Route path="/">
+          <JobsContainer />
+        </Route>
+      </Switch>
     </Router>
   );
 }

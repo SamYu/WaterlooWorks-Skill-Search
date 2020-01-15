@@ -14,9 +14,12 @@ export function filters(state = {}, action) {
                 [action.field]: action.query
             })
         case REMOVE_JOB_FILTER:
-            return Object.assign({}, state, {
-                [action.field]: '',
-            })
+            return Object.keys(state)
+                    .filter(key => key !== action.field)
+                    .reduce((obj, key) => {
+                        obj[key] = state[key];
+                        return obj;
+                    }, {});
         case CLEAR_JOB_FILTERS:
             return {};
         default:

@@ -12,7 +12,7 @@ const getVisibleJobs = (jobs, filters) => {
     Object.keys(filters).forEach(field => {
         filteredJobs = filteredJobs.filter(job => {
             return job[field] && filters[field]
-                ? job[field].toLowerCase().includes(filters[field].toLowerCase())
+                ? job[field].includes(filters[field])
                 : true;
         })
     })

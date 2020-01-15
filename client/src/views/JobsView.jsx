@@ -6,7 +6,7 @@ import JobsList from '../components/JobsList';
 function JobsView({ jobs, filters, onAddFilter, onRemoveFilter, 
     onClearFilters, onFetchJobsIfNeeded, isFetching, lastUpdated }) {
     return (
-        <div>
+        <div style={{marginTop: 60}}>
             <JobsSettings
                 filters={filters} 
                 onAddFilter={onAddFilter}
