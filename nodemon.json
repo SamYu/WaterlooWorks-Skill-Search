@@ -1,5 +1,6 @@
 {
     "exec": "npm run dev",
     "watch": ["server/*"],
+    "ignore": ["client/*"],
     "ext": "js, html, css, json"
 }
