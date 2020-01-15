@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { withStyles } from '@material-ui/core';
 import Table from '@material-ui/core/Table';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -19,16 +20,43 @@ const styles = {
     marginTop: 10,
     maxHeight: '73vh',
   },
+  tableRow: {
+    '& > td > div': {
+      maxWidth: 400,
+      maxHeight: 200,
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+      display: '-webkit-box',
+      '-webkit-box-orient': 'vertical',
+      '&:hover': {
+        cursor: 'pointer',
+      },
+    },
+  },
+  truncData: {
+    '& > td > div': {
+      '-webkit-line-clamp': 3,
+    },
+  },
 };
 
 function JobsList({ classes, jobs, isFetching }) {
   const rowsPerPage = 50;
   const [page, setPage] = React.useState(0);
+  const [expandedRow, setExpandedRow] = React.useState(null);
   const tableRef = useRef();
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
     tableRef.current.scrollTop = 0;
+  };
+
+  const handleExpandRow = (index) => {
+    if (index === expandedRow) {
+      setExpandedRow(null);
+    } else {
+      setExpandedRow(index);
+    }
   };
 
   if (isFetching) {
@@ -48,23 +76,32 @@ function JobsList({ classes, jobs, isFetching }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {jobs.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((job) => (
-              <TableRow>
+            {jobs.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((job, index) => (
+              <TableRow
+                selected={expandedRow === index}
+                onClick={() => handleExpandRow(index)}
+                className={classNames(
+                  classes.tableRow,
+                  { [classes.truncData]: expandedRow !== index },
+                )}
+              >
                 <TableCell>{job.jobId}</TableCell>
                 <TableCell>{job.company}</TableCell>
                 <TableCell>{job.title}</TableCell>
                 <TableCell>{job.region}</TableCell>
-                <TableCell>{job.summary}</TableCell>
-                <TableCell>{job.skills}</TableCell>
+                <TableCell><div>{job.summary}</div></TableCell>
+                <TableCell><div>{job.skills}</div></TableCell>
                 <TableCell>{job.workTerm}</TableCell>
                 <TableCell>
-                  <ul>
-                    {job.skillsList.map((skill) => (
-                      <li>
-                        {skill}
-                      </li>
-                    ))}
-                  </ul>
+                  <div>
+                    <ul>
+                      {job.skillsList.map((skill) => (
+                        <li>
+                          {skill}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
