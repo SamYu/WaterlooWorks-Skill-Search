@@ -1,7 +1,7 @@
 # WaterlooWorks Skill Search
 A Node API and React client that scrapes jobs from the University of Waterloo’s co-op job portal and presents personalized job postings based on the user’s unique skillset.
 
-![Screenshot of Landing](images/landing.png)
+![Animated demo](images/demo.gif)
 
 ## How it works
 Job postings on WaterlooWorks are scraped using a Puppeteer, headless chrome Node.js API and the results are parsed and stored into a MongoDB database for caching.
