@@ -11,7 +11,7 @@ import LoginView from './views/LoginView';
 import JobsContainer from './containers/JobsContainer';
 import { loginUser, logoutUser } from './actions/userActions';
 
-function App({ isAuthenticated, isFetching, onLoginUser, onLogoutUser}) {
+function App({ isAuthenticated, errorMessage, isFetching, onLoginUser, onLogoutUser}) {
   return (
     <Router>
       <NavBar
@@ -20,7 +20,11 @@ function App({ isAuthenticated, isFetching, onLoginUser, onLogoutUser}) {
       />
       <Switch>
         <Route path="/login">
-          <LoginView isAuthenticated={isAuthenticated} onLoginUser={onLoginUser} />
+          <LoginView
+            errorMessage={errorMessage}
+            isAuthenticated={isAuthenticated}
+            onLoginUser={onLoginUser}
+          />
         </Route>
         <ProtectedRoute isAuthenticated={isAuthenticated} path="/" component={JobsContainer} />
       </Switch>
@@ -30,10 +34,11 @@ function App({ isAuthenticated, isFetching, onLoginUser, onLogoutUser}) {
 
 function mapStateToProps(state) {
   const { auth } = state;
-  const { isAuthenticated, isFetching } = auth;
+  const { isAuthenticated, isFetching, errorMessage } = auth;
   return {
     isFetching,
     isAuthenticated,
+    errorMessage,
   };
 }
 

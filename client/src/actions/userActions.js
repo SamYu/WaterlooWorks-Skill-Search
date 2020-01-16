@@ -49,7 +49,8 @@ export function loginUser(email, password) {
       localStorage.setItem('jwtToken', user.token);
       dispatch(receiveLogin(user));
     }).catch((err) => {
-      dispatch(loginError(err));
+      const { error } = err.response.data;
+      dispatch(loginError(error));
     });
   };
 }

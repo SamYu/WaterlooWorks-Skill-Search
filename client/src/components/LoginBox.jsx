@@ -3,7 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 
-function LoginBox({ onLoginUser }) {
+function LoginBox({ onLoginUser, errorMessage }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -29,12 +29,17 @@ function LoginBox({ onLoginUser }) {
           value={email}
           onChange={handleChangeEmail}
           label="Email"
+          type="email"
+          error={errorMessage}
+          helperText={errorMessage}
           required
         />
         <TextField
           value={password}
           onChange={handleChangePassword}
+          error={errorMessage}
           label="Password"
+          type="password"
           required
         />
         <Button type="submit">Log In</Button>
