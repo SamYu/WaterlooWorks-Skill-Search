@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button';
 
-function NavBar() {
+function NavBar({ isAuthenticated, onLogoutUser }) {
   return (
     <div>
       <AppBar position="fixed">
@@ -18,7 +18,7 @@ function NavBar() {
           <Typography variant="h6">
             WaterlooWorks Skill Search (Beta)
           </Typography>
-          {/* <Button color="inherit">Logout</Button> */}
+          {isAuthenticated && <Button onClick={onLogoutUser} color="inherit">Logout</Button>}
         </Toolbar>
       </AppBar>
     </div>

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import secrets from '../secrets';
 // Action Types
 
 export const ADD_JOB_FILTER = 'ADD_JOB_FILTER';
@@ -7,7 +6,7 @@ export const REMOVE_JOB_FILTER = 'REMOVE_JOB_FILTER';
 export const CLEAR_JOB_FILTERS = 'CLEAR_JOB_FILTERS';
 export const INVALIDATE_JOBS = 'INVALIDATE_JOBS';
 export const REQUEST_JOBS = 'REQUEST_JOBS';
-export const RECEIVE_JOBS = 'RECEIVE_JOBS'
+export const RECEIVE_JOBS = 'RECEIVE_JOBS';
 
 // Action Creators
 
@@ -36,22 +35,34 @@ export function receiveJobs(response) {
   return {
     type: RECEIVE_JOBS,
     jobs: response,
-    receivedAt: new Date()
-  }
+    receivedAt: new Date(),
+  };
 }
 
 function fetchJobs() {
   return (dispatch) => {
     dispatch(requestJobs());
-    const response = axios.post(
-      '/api/fetchJobs',
-      { email: secrets.email, password: secrets.password },
-      { headers: { 'Content-Type': 'application/json' } },
-    );
-    return response
-      .then((res) => {console.log(res); return res.data; }, (err) => console.error(err))
-      .then((json) => dispatch(receiveJobs(json)))
-  }
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+      const response = axios.get(
+        '/api/jobs',
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        },
+      );
+      return response
+        .then((res) => {
+          return res.data;
+        }, (err) => {
+          localStorage.removeItem('jwtToken');
+          return err;
+        })
+        .then((json) => dispatch(receiveJobs(json)));
+    }
+    return null;
+  };
 }
 
 function shouldFetchJobs(state) {

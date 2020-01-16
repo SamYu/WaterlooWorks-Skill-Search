@@ -12,8 +12,8 @@ router.get('/current', auth.required, currentUser);
 router.get('/logout', auth.optional, logout);
 
 // Jobs Routes
-router.post('/fetchJobs', fetchJobs);
-router.get('/jobs', getJobs);
-router.post('/jobs', postJob);
+router.post('/fetchJobs', auth.required, fetchJobs);
+router.get('/jobs', auth.required, getJobs);
+router.post('/jobs', auth.required, postJob);
 
 module.exports = router;
