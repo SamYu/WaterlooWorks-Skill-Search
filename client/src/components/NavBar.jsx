@@ -6,16 +6,26 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core';
 
-function NavBar({ isAuthenticated, onLogoutUser }) {
+const styles = {
+  root: {
+    flexGrow: 1,
+  },
+  title: {
+    flexGrow: 1,
+  },
+};
+
+function NavBar({ classes, isAuthenticated, onLogoutUser }) {
   return (
-    <div>
+    <div className={classes.root}>
       <AppBar position="fixed">
         <Toolbar>
           <IconButton edge="start" color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6">
+          <Typography className={classes.title} variant="h6">
             WaterlooWorks Skill Search (Beta)
           </Typography>
           {isAuthenticated && <Button onClick={onLogoutUser} color="inherit">Logout</Button>}
@@ -26,4 +36,4 @@ function NavBar({ isAuthenticated, onLogoutUser }) {
   );
 }
 
-export default NavBar;
+export default withStyles(styles)(NavBar);

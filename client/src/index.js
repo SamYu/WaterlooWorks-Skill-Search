@@ -8,7 +8,8 @@ import appReducer from './reducers/index';
 import * as serviceWorker from './serviceWorker';
 import { thunk } from './utils/stateUtils';
 
-const theme = createMuiTheme();
+const palette = { primary: { main: '#0D47A1' } };
+const theme = createMuiTheme({ palette });
 
 const store = createStore(appReducer, applyMiddleware(thunk));
 

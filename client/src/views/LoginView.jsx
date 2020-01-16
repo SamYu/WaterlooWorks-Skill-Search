@@ -1,6 +1,5 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import Typography from '@material-ui/core/Typography';
 import LoginBox from '../components/LoginBox';
 
 const LoginView = ({ isAuthenticated, onLoginUser, errorMessage }) => {
@@ -8,8 +7,7 @@ const LoginView = ({ isAuthenticated, onLoginUser, errorMessage }) => {
     return <Redirect to="/" />;
   }
   return (
-    <div style={{ marginTop: 60 }}>
-      <Typography variant="h2">WaterlooWorks Skill Search</Typography>
+    <div>
       <LoginBox onLoginUser={onLoginUser} errorMessage={errorMessage} />
     </div>
   );
