@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import classNames from 'classnames';
+import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core';
+import classNames from 'classnames';
 
 const styles = (theme) => ({
   formWrapper: {
     display: 'flex',
     flexDirection: 'column',
-    height: '300px',
+    height: '400px',
     width: '400px',
     margin: '20vh auto 0',
     padding: 40,
@@ -34,9 +34,19 @@ const styles = (theme) => ({
 });
 
 
-function LoginBox({ classes, onLoginUser, errorMessage }) {
+function RegisterBox({ classes, onRegisterUser, errorMessage }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorLabel, setErrorLabel] = useState(errorMessage);
+
+  useEffect(() => {
+    setErrorLabel(null);
+  }, [email, password, confirmPassword]);
+
+  useEffect(() => {
+    if (errorMessage && errorMessage !== errorLabel) setErrorLabel(errorMessage);
+  }, [errorMessage]);
 
   const handleChangeEmail = (event) => {
     const { value } = event.target;
@@ -48,38 +58,56 @@ function LoginBox({ classes, onLoginUser, errorMessage }) {
     setPassword(value);
   };
 
+  const handleChangeConfirmPassword = (event) => {
+    const { value } = event.target;
+    setConfirmPassword(value);
+  };
+
   const submitForm = (event) => {
     event.preventDefault();
-    onLoginUser(email, password);
+    if (password === confirmPassword) {
+      onRegisterUser(email, password);
+    } else {
+      setErrorLabel('Passwords do not match. Please confirm your password');
+    }
   };
 
   return (
     <div className={classes.root}>
       <form onSubmit={submitForm}>
         <Paper elevation="5" className={classes.formWrapper}>
-          <Typography variant="h3">Log In</Typography>
+          <Typography variant="h3">Register</Typography>
           <TextField
             className={classes.formInput}
             value={email}
             onChange={handleChangeEmail}
             label="Email"
             type="email"
-            error={errorMessage}
-            helperText={errorMessage}
+            error={errorLabel}
+            helperText={errorLabel}
             required
           />
           <TextField
             className={classes.formInput}
             value={password}
             onChange={handleChangePassword}
-            error={errorMessage}
+            error={errorLabel}
             label="Password"
             type="password"
             required
           />
+          <TextField
+            className={classes.formInput}
+            value={confirmPassword}
+            onChange={handleChangeConfirmPassword}
+            error={errorLabel}
+            label="Confirm Password"
+            type="password"
+            required
+          />
           <div className={classes.buttonsWrapper}>
-            <Button variant="contained" className={classNames(classes.submitButton, classes.button)} type="submit">Login</Button>
-            <Button variant="contained" href="/register" className={classes.button}>New User?</Button>
+            <Button variant="contained" className={classNames(classes.submitButton, classes.button)} type="submit">Register</Button>
+            <Button variant="contained" href="/login" className={classes.button}>Returning User?</Button>
           </div>
         </Paper>
       </form>
@@ -87,4 +115,4 @@ function LoginBox({ classes, onLoginUser, errorMessage }) {
   );
 }
 
-export default withStyles(styles)(LoginBox);
+export default withStyles(styles)(RegisterBox);

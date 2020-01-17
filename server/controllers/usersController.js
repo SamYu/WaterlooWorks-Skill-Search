@@ -6,20 +6,20 @@ export const registerUser = async (req, res) => {
     const { body: { user } } = req;
     if (!user.email) {
         return res.status(400).json({
-            errors: 'Email is required',
+            error: 'Email is required',
         });
     }
     if (!user.password) {
         return res.status(400).json({
             errors: {
-                errors: 'Password is required',
+                error: 'Password is required',
             },
         });
     }
     User.findOne({ email: user.email }, async (err, result) => {
         if (result) {
             return res.status(400).json({
-                errors: 'Email is taken',
+                error: 'Email is taken',
             });
         }
         try {
@@ -38,16 +38,12 @@ export const loginUser = async (req, res, next) => {
     const { body: { user } } = req;
     if (!user.email) {
         return res.status(400).json({
-            errors: {
-                email: 'is required',
-            },
+            error: 'Email is required',
         });
     }
     if (!user.password) {
         return res.status(400).json({
-            errors: {
-                password: 'is required',
-            },
+            error: 'Password is required',
         });
     }
     return passport.authenticate(

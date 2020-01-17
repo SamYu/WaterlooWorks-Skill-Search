@@ -8,10 +8,11 @@ import { connect } from 'react-redux';
 import NavBar from './components/NavBar';
 import ProtectedRoute from './components/ProtectedRoute';
 import LoginView from './views/LoginView';
+import RegisterView from './views/RegisterView';
 import JobsContainer from './containers/JobsContainer';
-import { loginUser, logoutUser } from './actions/userActions';
+import { loginUser, logoutUser, registerUser } from './actions/userActions';
 
-function App({ isAuthenticated, errorMessage, isFetching, onLoginUser, onLogoutUser}) {
+function App({ isAuthenticated, errorMessage, isFetching, onLoginUser, onLogoutUser, onRegisterUser}) {
   return (
     <Router>
       <NavBar
@@ -24,6 +25,13 @@ function App({ isAuthenticated, errorMessage, isFetching, onLoginUser, onLogoutU
             errorMessage={errorMessage}
             isAuthenticated={isAuthenticated}
             onLoginUser={onLoginUser}
+          />
+        </Route>
+        <Route path="/register">
+          <RegisterView
+            errorMessage={errorMessage}
+            isAuthenticated={isAuthenticated}
+            onRegisterUser={onRegisterUser}
           />
         </Route>
         <ProtectedRoute isAuthenticated={isAuthenticated} path="/" component={JobsContainer} />
@@ -49,6 +57,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onLogoutUser: () => {
       dispatch(logoutUser());
+    },
+    onRegisterUser: (email, password) => {
+      dispatch(registerUser(email, password));
     },
   };
 };

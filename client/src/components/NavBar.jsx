@@ -8,6 +8,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core';
 
+
 const styles = {
   root: {
     flexGrow: 1,
@@ -22,9 +23,9 @@ function NavBar({ classes, isAuthenticated, onLogoutUser }) {
     <div className={classes.root}>
       <AppBar position="fixed">
         <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu">
+          {/* <IconButton edge="start" color="inherit" aria-label="menu">
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
           <Typography className={classes.title} variant="h6">
             WaterlooWorks Skill Search (Beta)
           </Typography>
