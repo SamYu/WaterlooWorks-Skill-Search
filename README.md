@@ -1,4 +1,7 @@
 # WaterlooWorks Skill Search
+
+### Try it out here: https://skillsearch.samyu.io/
+
 A Node API and React client that scrapes jobs from the University of Waterloo’s co-op job portal and presents personalized job postings based on the user’s unique skillset.
 
 ![Animated demo](images/demo.gif)
@@ -30,4 +33,8 @@ Job postings on WaterlooWorks are scraped using a Puppeteer, headless chrome Nod
 2. Open `http://localhost:3000` in your browser to view the React app
 
 ## Deploying to production
-Work In Progress
+
+1. Fetch latest from repo with `git pull`
+2. Build the frontend: `npm run build` while in `client/`
+2. Start the server: `pm2 start npm -- run prod -`
+
