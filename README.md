@@ -1,6 +1,6 @@
 # WaterlooWorks Skill Search
 
-### Try it out here: https://skillsearch.samyu.io/
+### Try it out here: [skillsearch.samyu.io](https://skillsearch.samyu.io/)
 
 A Node API and React client that scrapes jobs from the University of Waterloo’s co-op job portal and presents personalized job postings based on the user’s unique skillset.
 
