@@ -12,6 +12,7 @@ Job postings on WaterlooWorks are scraped using a Puppeteer, headless chrome Nod
 **Technologies Used**
 - **Backend**: Node.js, Express.js, MongoDB, Mongoose.js, Puppeteer
 - **Frontend**: React, Redux
+- **Infrastructure**: AWS EC2, Nginx
 
 ## How to develop locally
 
@@ -34,7 +35,8 @@ Job postings on WaterlooWorks are scraped using a Puppeteer, headless chrome Nod
 
 ## Deploying to production
 
-1. Fetch latest from repo with `git pull`
-2. Build the frontend: `npm run build` while in `client/`
-2. Start the server: `pm2 start npm -- run prod -`
+1. `ssh` into the EC2 instance
+2. Fetch latest from repo with `git pull`
+3. Build the frontend: `npm run build` while in `client/`
+4. Start the server: `pm2 start npm -- run prod --`
 
