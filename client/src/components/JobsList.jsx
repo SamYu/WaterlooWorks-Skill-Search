@@ -72,12 +72,13 @@ function JobsList({ classes, jobs, isFetching }) {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
-              {tableCols.map((col) => <TableCell variant="head">{col}</TableCell>)}
+              {tableCols.map((col) => <TableCell key={col} variant="head">{col}</TableCell>)}
             </TableRow>
           </TableHead>
           <TableBody>
             {jobs.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((job, index) => (
               <TableRow
+                key={job.jobId}
                 selected={expandedRow === index}
                 onClick={() => handleExpandRow(index)}
                 className={classNames(
@@ -96,7 +97,7 @@ function JobsList({ classes, jobs, isFetching }) {
                   <div>
                     <ul>
                       {job.skillsList.map((skill) => (
-                        <li>
+                        <li key={skill}>
                           {skill}
                         </li>
                       ))}

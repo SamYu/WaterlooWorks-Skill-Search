@@ -9,7 +9,6 @@ import TextField from '@material-ui/core/TextField';
 import SyncIcon from '@material-ui/icons/Sync';
 import Fab from '@material-ui/core/Fab';
 import { withStyles } from '@material-ui/core';
-import SkillSearch from './SkillSearch';
 
 const styles = {
   settingsBar: {
@@ -102,7 +101,7 @@ function JobsSettings({
       <div className={classes.addFilterBox}>
         <TextField className={classes.inputs} select value={fieldValue} onChange={handleFieldChange} label="Field">
           {Object.keys(allowedFields).map((field) => (
-            <MenuItem value={field}>{allowedFields[field]}</MenuItem>
+            <MenuItem key={field} value={field}>{allowedFields[field]}</MenuItem>
           ))}
           <MenuItem value="jobId">Job ID</MenuItem>
         </TextField>
@@ -137,7 +136,7 @@ function JobsSettings({
 JobsSettings.propTypes = {
   classes: PropTypes.object.isRequired,
   filters: PropTypes.object.isRequired,
-  lastUpdated: PropTypes.number,
+  lastUpdated: PropTypes.instanceOf(Date),
   onAddFilter: PropTypes.func.isRequired,
   onRemoveFilter: PropTypes.func.isRequired,
   onClearFilters: PropTypes.func.isRequired,

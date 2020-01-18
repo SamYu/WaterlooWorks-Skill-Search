@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { receiveJobs } from './jobActions';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
